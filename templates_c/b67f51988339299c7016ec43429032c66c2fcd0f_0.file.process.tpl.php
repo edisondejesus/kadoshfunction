@@ -1,4 +1,27 @@
-     
+<?php
+/* Smarty version 3.1.32-dev-38, created on 2018-09-28 02:22:45
+  from 'C:\xampp\htdocs\kadosh\module\process.tpl' */
+
+/* @var Smarty_Internal_Template $_smarty_tpl */
+if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
+  'version' => '3.1.32-dev-38',
+  'unifunc' => 'content_5bad7455153067_05642400',
+  'has_nocache_code' => false,
+  'file_dependency' => 
+  array (
+    'b67f51988339299c7016ec43429032c66c2fcd0f' => 
+    array (
+      0 => 'C:\\xampp\\htdocs\\kadosh\\module\\process.tpl',
+      1 => 1531601219,
+      2 => 'file',
+    ),
+  ),
+  'includes' => 
+  array (
+  ),
+),false)) {
+function content_5bad7455153067_05642400 (Smarty_Internal_Template $_smarty_tpl) {
+?>     
 <!--
 Author: W3layouts
 Author URL: http://w3layouts.com
@@ -13,7 +36,9 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="keywords" content="Augment Responsive web template, Bootstrap Web Templates, Flat Web Templates, Android Compatible web template, 
 Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyEricsson, Motorola web design" />
-<script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
+<?php echo '<script'; ?>
+ type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } <?php echo '</script'; ?>
+>
  <!-- Bootstrap Core CSS -->
 <link href="css/bootstrap.min.css" rel='stylesheet' type='text/css' />
 <!-- Custom CSS -->
@@ -25,27 +50,84 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 <!-- lined-icons -->
 <link rel="stylesheet" href="css/icon-font.min.css" type='text/css' />
 <!-- //lined-icons -->
-<script src="js/alertify.min.js"></script>
-<script src="js/jquery-1.10.2.min.js"></script>
-<script src="js/amcharts.js"></script>	
-<script src="js/serial.js"></script>	
-<script src="js/light.js"></script>	
-<script src="js/radar.js"></script>	
+<?php echo '<script'; ?>
+ src="js/amcharts.js"><?php echo '</script'; ?>
+>	
+<?php echo '<script'; ?>
+ src="js/jquery-1.10.2.min.js"><?php echo '</script'; ?>
+>
+<?php echo '<script'; ?>
+ src="js/serial.js"><?php echo '</script'; ?>
+>	
+<?php echo '<script'; ?>
+ src="js/light.js"><?php echo '</script'; ?>
+>	
+<?php echo '<script'; ?>
+ src="js/radar.js"><?php echo '</script'; ?>
+>	
+<?php echo '<script'; ?>
+ src="js/alertify.js"><?php echo '</script'; ?>
+>
+<?php echo '<script'; ?>
+ src="js/alertify.min.js"><?php echo '</script'; ?>
+>
 <link href="css/barChart.css" rel='stylesheet' type='text/css' />
 <link href="css/fabochart.css" rel='stylesheet' type='text/css' />
 <!--clock init-->
-<script src="js/css3clock.js"></script>
-<!--Easy Pie Chart-->
+<?php echo '<script'; ?>
+ src="js/css3clock.js"><?php echo '</script'; ?>
+>
+<!--Easy Pie Chart-->,
 <!--skycons-icons-->
-<script src="js/skycons.js"></script>
+<?php echo '<script'; ?>
+ src="js/skycons.js"><?php echo '</script'; ?>
+>
 
-<script src="js/jquery.easydropdown.js"></script>
-<script type="text/javascript" src="js/modulos.js"></script>
+<input type="hidden" id="estatus_ready" value="false">
+<?php echo '<script'; ?>
+ src="js/jquery.easydropdown.js"><?php echo '</script'; ?>
+>
+<?php echo '<script'; ?>
+ type="text/javascript" src="js/modulos.js"><?php echo '</script'; ?>
+>
+<?php if ($_smarty_tpl->tpl_vars['cita_id']->value) {?>
+<input type="hidden" id="cita_id" value="<?php echo $_smarty_tpl->tpl_vars['cita_id']->value;?>
+">
+<button onclick="guardar_estatus(<?php echo $_smarty_tpl->tpl_vars['cita_id']->value;?>
+);" class="btn btn-primary">dale</button>
+<?php } else { ?>
+<input type="hidden" id="cita_id" value="null">
+<?php }
+echo '<script'; ?>
+ type="text/javascript">
+
+$('document').ready(function(){
+
+
+	create_estatus();
+
+	
+
+
+
+
+
+
+});
+
+
+
+
+
+
+
+<?php echo '</script'; ?>
+>
+
 
 <!--//skycons-icons-->
 </head> 
 <body>
-	<div id="notificacion"></div>
    <div class="page-container">
    <!--/content-inner-->
 	<div class="left-content">
@@ -56,16 +138,17 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 						<div class="top_menu">
 						        <div class="main-search">
 											<form>
-												{literal}
+												
 											   <input type="text" value="Search" id="buscando" onFocus="this.value = '';" onBlur="if (this.value == '') '{this.value = 'Search';}'" class="text"/>
 												<input type="submit" value="">
-												{/literal}
+												
 											</form>
 									<div class="close"><img src="images/cross.png" /></div>
 								</div>
 									<div class="srch"><button></button></div>
-									{literal}
-									<script type="text/javascript">
+									
+									<?php echo '<script'; ?>
+ type="text/javascript">
 										 $('.main-search').hide();
 										$('button').click(function (){
 											$('.main-search').show();
@@ -75,8 +158,9 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 										$('.close').click(function(){
 											$('.main-search').hide();
 										});
-									</script>
-									{/literal}
+									<?php echo '</script'; ?>
+>
+									
 							<!--/profile_details-->
 								<div class="profile_details_left">
 									<ul class="nofitications-dropdown">
@@ -91,7 +175,8 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 
 																			</ul>
 																		</div>
-																		<script type="text/javascript">
+																		<?php echo '<script'; ?>
+ type="text/javascript">
 			
 																	function DropDown(el) {
 																		this.dd = el;
@@ -136,7 +221,8 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 
 																	});
 
-																</script>
+																<?php echo '</script'; ?>
+>
 										    </li>
 									       <li class="dropdown note">
 											<a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-envelope-o"></i> <span class="badge">3</span></a>
@@ -333,15 +419,17 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 												<!--/candile-->
 													<div class="candile"> 
 															<div class="candile-inner" id="ejecutar">
+																	<h3 class="sub-tittle">PROCESO DE PACIENTE</h3>
+															    <div id="process_list"><div id="fig">
 																
-															
-															
+																</div>
 															</div>
-														</div>
 																				
 															</div>
 															
 														</div>
+
+
 													<!--/candile-->
 													
 												<!--/charts-->
@@ -360,7 +448,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 												<div class="area">
 											
 															<div class="col-md-12">
-															<h3 class="sub-tittle">Estadisticas de Sexo</h3>
+															<h3 class="sub-tittle">STATUS DE PROCESESO AQUI</h3>
 															    <div id="chartdiv1"></div>	
 															
 																</div>
@@ -427,18 +515,21 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 									</div>
 							   <!--//down-->
                            <div class="menu">
-									<ul id="menu">
-										<li><a href="#" id="ver_nominas"><i class="lnr lnr-pencil"></i> <span>Nominas</span></a></li>										
+									<ul id="menu" >
+										<li><a href="#" id="ver_nominas"><i class="lnr lnr-pencil"></i> <span>Nominas</span></a></li>	
 										<li><a href="#" id="cita"><i class="lnr lnr-pencil"></i> <span>Registrar Cita</span></a></li>
 										<li id="r_doctor"><a href="#"><i class="lnr lnr-pencil"></i> <span>Registrar Doctor</span></a></li>
-										 <li  ><a href="#" id="citas"><i class="fa fa-table"></i> <span>Citas</span></a>
-										
+										 <li id="citas" ><a href="#"><i class="fa fa-table"></i> <span>Citas</span> <span class="fa fa-angle-right" style="float: right"></span></a>
+										   
+											
+										 
 										</li>
-										 <li id="ingresos" >
+										<li id="ingresos" >
 											<a href="#"><i class="fa fa-file-text-o"></i>Ver Ingresos</a>
 										 </li>
 									
-										<li id="agregar_procedimiento" ><a href="#"><i class="fa fa-file-text-o"></i> <span>Agregar procedimiento</span></a></li>
+										<li id="agregar_procedimiento" ><a href="#"><i class="fa fa-file-text-o"></i> <span>Agregar procedimiento</span></a></li>	
+								
 									 <li><a href="#"><i class="lnr lnr-envelope"></i> <span>Mail Box</span><span class="fa fa-angle-right" style="float: right"></span></a>
 									   <ul>
 										<li><a href="inbox.html"><i class="fa fa-inbox"></i> Inbox</a></li>
@@ -476,8 +567,9 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 							  </div>
 							  <div class="clearfix"></div>		
 							</div>
-							{literal}
-							<script>
+							
+							<?php echo '<script'; ?>
+>
 							var toggle = true;
 										
 							$(".sidebar-icon").click(function() {                
@@ -496,22 +588,40 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 											
 											toggle = !toggle;
 										});
-							</script>
-							{/literal}
+							<?php echo '</script'; ?>
+>
+							
 <!--js -->
-
-<script src="js/jquery.nicescroll.js"></script>
-<script src="js/scripts.js"></script>
+<link rel="stylesheet" href="css/vroom.css">
+<?php echo '<script'; ?>
+ type="text/javascript" src="js/vroom.js"><?php echo '</script'; ?>
+>
+<?php echo '<script'; ?>
+ type="text/javascript" src="js/TweenLite.min.js"><?php echo '</script'; ?>
+>
+<?php echo '<script'; ?>
+ type="text/javascript" src="js/CSSPlugin.min.js"><?php echo '</script'; ?>
+>
+<?php echo '<script'; ?>
+ src="js/jquery.nicescroll.js"><?php echo '</script'; ?>
+>
+<?php echo '<script'; ?>
+ src="js/scripts.js"><?php echo '</script'; ?>
+>
 
 <!-- Bootstrap Core JavaScript -->
-   <script src="js/bootstrap.min.js"></script>
+   <?php echo '<script'; ?>
+ src="js/bootstrap.min.js"><?php echo '</script'; ?>
+>
 </body>
 </html>
 
 <style type="text/css">
+	
 	footer{
-		display: none;
 
+		display: none;
 	}
 
-</style>
+</style><?php }
+}

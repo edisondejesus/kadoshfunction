@@ -12,6 +12,16 @@
 
 	}
 
+	if(isset($_POST['leido'])){
+
+		$leido = $_POST['leido'];
+     
+		file_put_contents("cello.txt", $leido);
+
+
+	}	
+
+
 	if(isset($_POST['id_doctor'])){
 
  		$fecha_cita= date('Y-m-d H:i:s');
@@ -72,8 +82,8 @@
 
 		 if($app->crear_status($cita,$conn)=="ya esta cita tiene un estatus"){
 
-		 		echo" ok";
 
+		 		echo" ok";
 		 }else{
 
 		 	echo " ok";
@@ -91,6 +101,7 @@
 		$monto  = $_POST['monto'];
 		$id_estatus = $_POST['id_estatus'];
 		$abono = $_POST['abono'];
+		$tipo_de_pago =  $_POST['type_pay'];
 		if($abono=="abono"){
 
 			$concepto_pago = "abono";
@@ -100,7 +111,7 @@
 		}
 
 	
-		$app->generar_factura($monto,$id_estatus,$concepto_pago,$abono,$conn);
+		$app->generar_factura($monto,$id_estatus,$concepto_pago,$abono,$conn,$tipo_de_pago);
 
 	}else if(isset($_POST['cargar_facturas'])){
 
@@ -113,7 +124,6 @@
 
 	}else if(isset($_POST['cargar_citas'])){
 
-
 				$app->citas_general($conn,'assoc');
 
 	}else if(isset($_POST['cargar_citas_json'])){
@@ -125,8 +135,8 @@
 
 			$id_estatus = $_POST['id_estatus'];
 			$id_procedimiento = $_POST['id_procedimiento'];
-
-			$app->agregar_procedimiento($id_estatus,$id_procedimiento);
+			$cantidad_p = $_POST['cantidad_procedimiento'];
+			$app->agregar_procedimiento($id_estatus,$id_procedimiento,$cantidad_p);
 	}else if(isset($_POST['generar_reporte'])){
 
  			$id_cita = $_POST['id_cita'];
@@ -158,8 +168,8 @@
 
 			$id_historial = $_POST['id_historial'];
 			$cantidad = $_POST['cantidad'];
-
-			remover_procedimiento($id_historial,$cantidad);
+			$cantidad_r = $_POST['cantidad_r'];
+			remover_procedimiento($id_historial,$cantidad,$cantidad_r);
 
 	}else if(isset($_POST['load_process'])){
 
@@ -218,6 +228,8 @@
 			$tipo = $_POST['tipo'];
 
 			descuentos($tipo,$id_estatus);
+
+
 			
 	}else if(isset($_POST['eliminar_sub_cita'])){
 
@@ -253,6 +265,22 @@
 		$id_doctor = $_POST['id_doctor_a'];
 
 		update_1_cita($id_cita,$paciente,$hora_minuto,$asunto,$fecha_cita,$id_doctor);
+
+	}else if(isset($_POST['filtrar_procedimiento'])){
+
+		$key = $_POST['key'];
+		$app->buscar_procedimientos($key);
+
+		
+	}else if(isset($_POST['aplicar_descuento_manual'])){
+
+			$id_estatus = $_POST['id_estatus'];
+			$monto = $_POST['monto'];
+
+
+
+			descuentos('a',$id_estatus,'descuento_manual',$monto);
+
 
 	}
 ?>

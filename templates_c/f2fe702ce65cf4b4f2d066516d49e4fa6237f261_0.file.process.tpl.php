@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 3.1.32-dev-38, created on 2018-05-06 20:50:49
+/* Smarty version 3.1.32-dev-38, created on 2018-07-14 20:47:00
   from 'C:\wamp\www\clinica\module\process.tpl' */
 
 /* @var Smarty_Internal_Template $_smarty_tpl */
 if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   'version' => '3.1.32-dev-38',
-  'unifunc' => 'content_5aef6aa94f44b6_96876434',
+  'unifunc' => 'content_5b4a61448edf84_08756077',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     'f2fe702ce65cf4b4f2d066516d49e4fa6237f261' => 
     array (
       0 => 'C:\\wamp\\www\\clinica\\module\\process.tpl',
-      1 => 1525639841,
+      1 => 1531601219,
       2 => 'file',
     ),
   ),
@@ -20,7 +20,7 @@ if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   array (
   ),
 ),false)) {
-function content_5aef6aa94f44b6_96876434 (Smarty_Internal_Template $_smarty_tpl) {
+function content_5b4a61448edf84_08756077 (Smarty_Internal_Template $_smarty_tpl) {
 ?>     
 <!--
 Author: W3layouts
@@ -516,6 +516,7 @@ $('document').ready(function(){
 							   <!--//down-->
                            <div class="menu">
 									<ul id="menu" >
+										<li><a href="#" id="ver_nominas"><i class="lnr lnr-pencil"></i> <span>Nominas</span></a></li>	
 										<li><a href="#" id="cita"><i class="lnr lnr-pencil"></i> <span>Registrar Cita</span></a></li>
 										<li id="r_doctor"><a href="#"><i class="lnr lnr-pencil"></i> <span>Registrar Doctor</span></a></li>
 										 <li id="citas" ><a href="#"><i class="fa fa-table"></i> <span>Citas</span> <span class="fa fa-angle-right" style="float: right"></span></a>

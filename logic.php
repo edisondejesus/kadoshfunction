@@ -146,7 +146,7 @@ class Clinica
 	 function citas_general($conn,$conf){
 
 
-				$sql = "select * from cita inner join doctor as dr on cita.id_doctor=dr.id_doctor order by fecha_cita desc limit 8";
+				$sql = "select * from cita inner join doctor as dr on cita.id_doctor=dr.id_doctor order by fecha_cita desc limit 100";
 				$resp = $conn->query($sql);
 				$data = [];
 				foreach ($resp as $key) {
@@ -196,7 +196,7 @@ class Clinica
 				echo json_encode($data);
 		}
 
-		function generar_factura($monto,$id_estatus,$concepto_pago,$abono=false,$conn){
+		function generar_factura($monto,$id_estatus,$concepto_pago,$abono=false,$conn,$tipo_de_pago){
 
 			#debug 
 
@@ -213,16 +213,17 @@ class Clinica
 			if($abono=="abono"){
 							$this->actualizar_estatus($id_estatus,$monto);
 
-				$sql = "insert into factura (monto,concepto_pago,id_estatus,ganancia_clinica,ganancia_doctor,fecha_pago,dia)values(?,?,?,?,?,?,?)";
+				$sql = "insert into factura (monto,concepto_pago,id_estatus,ganancia_clinica,ganancia_doctor,fecha_pago,dia,tipo_de_pago)values(?,?,?,?,?,?,?,?)";
 				$guardar = $conn->prepare($sql);
-				$guardar->bind_param('dsiddss',
+				$guardar->bind_param('dsiddsss',
 					$monto,
 					$concepto_pago,
 					$id_estatus,
 					$ganancia_clinica,
 					$ganancia_doctor,
 					$fecha_pago,
-					$dia
+					$dia,
+					$tipo_de_pago
 
 				);
 
@@ -333,7 +334,9 @@ class Clinica
 
 		}
 
-		function eliminar_cita($id,$conn){
+		function eliminar_cita($id){
+
+			global $conn;
 
 			$sql = "delete from cita where id_cita='$id'";
 			$process = $conn->query($sql);
@@ -407,11 +410,14 @@ class Clinica
 
 				if($data->num_rows<1){
 					#actualziar estatus
-
+					#nuevos cambios
+					/*
 					$sql = "update estatus set precio=0 where id_estatus=?";
 					$update = $conn->prepare($sql);
 					$update->bind_param('i',$id_estatus);
 					$update->execute();
+
+					*/
 
 				}
 
@@ -471,7 +477,7 @@ class Clinica
 
 		}
 
-		function agregar_procedimiento($id_estatus,$id_procedimiento){
+		function agregar_procedimiento($id_estatus,$id_procedimiento,$cantida_p){
 			 
 			global $conn;
 
@@ -483,7 +489,7 @@ class Clinica
 			$precio = 0;
 			foreach ($data as $key) {
 
-					$precio =$key['precio'];	
+					$precio =$key['precio'] * $cantida_p;	
 			}
 
 			$sql = "select * from estatus where id_estatus=?";
@@ -510,9 +516,9 @@ class Clinica
 
 			$fecha_agregado = date('ymd');
 				#Registrar procedimiento en el estatus actual para luego ser calculado
-			$sql = "insert into historial_p(id_estatus,id_procedimiento,fecha_agregado)values(?,?,?)";
+			$sql = "insert into historial_p(id_estatus,id_procedimiento,fecha_agregado,cantidad)values(?,?,?,?)";
 			$ok = $conn->prepare($sql);
-			$ok->bind_param('iis',$id_estatus,$id_procedimiento,$fecha_agregado);
+			$ok->bind_param('iisi',$id_estatus,$id_procedimiento,$fecha_agregado,$cantida_p);
 			$ok->execute();
 		
 			#actualizando estatus con el nuevo agregado 
@@ -609,9 +615,11 @@ class Clinica
 	}
 
 
-	function  remover_procedimiento($id_historial,$precio){
+	function  remover_procedimiento($id_historial,$precio,$cantida_r){
 		global $conn;
 		
+		echo "esta es la canitdad a restar ".$cantida_r;
+
 		//Buscando el id del estatus para actualizarlo ahora
 
 		$sql = "select * from historial_p where id_hostorial=?";
@@ -619,42 +627,63 @@ class Clinica
 		$listo->bind_param('i',$id_historial);
 		$listo->execute();
 		$result = $listo->get_result();
-		$id_estatus = mysqli_fetch_object($result);
-		$id_estatus = $id_estatus->id_estatus;
+		$result = mysqli_fetch_object($result);
+		$id_estatus = $result->id_estatus;
+		$cantidad_a = $result->cantidad;
+		$cantidad_a-=$cantida_r;
 
+
+
+		#actualizando valor actual de este producto
+
+		$sql_a = "update historial_p set cantidad=? where id_hostorial=?";
+		$act = $conn->prepare($sql_a);
+		$act->bind_param('ii',
+			$cantidad_a,
+			$id_historial
+		);
+		$act->execute() or die("Problemas al actualizar la cantidad actual");
+		#buscando nuevo valor de cantidad
+		 $sql = "select * from historial_p where id_hostorial=?";
+		$listo = $conn->prepare($sql);
+		$listo->bind_param('i',$id_historial);
+		$listo->execute();
+		$result = $listo->get_result();
+		$cant = mysqli_fetch_object($result);
+		$cant = $cant->cantidad;
 
 
 		#borrando historial del estatus actual
-		$sql = "delete from historial_p where id_hostorial=?";
-		$listo= $conn->prepare($sql);
-		$listo->bind_param('i',$id_historial);
-		$listo->execute() or die("tenemos un problema");
 
-		
-		//Buscando el valor del estatus actual
-		$sql = "select * from estatus where id_estatus=?";
-		$listo = $conn->prepare($sql);
-		$listo->bind_param('i',$id_estatus);
-		$listo->execute();
-		$result = $listo->get_result();
-		$valor_a = mysqli_fetch_object($result);
-		$valor_a =  $valor_a->precio;
-		#restandole el procedimiento al esatus removido
-		$valor_a-=$precio;
-
-		#actualizando estatus
-		$sql = "update estatus set precio=? where id_estatus=?";
-		$ready  = $conn->prepare($sql);
-		$ready->bind_param('di',$valor_a,$id_estatus);
-		$ready->execute() or die("error al actualizar status");
-
-		echo  "sucess estatus actualizado con exito";
-		
-
-
-
+	if($cant==0){
+				$sql = "delete from historial_p where id_hostorial=?";
+				$listo= $conn->prepare($sql);
+				$listo->bind_param('i',$id_historial);
+				$listo->execute() or die("tenemos un problema");
 
 	}
+
+				//Buscando el valor del estatus actual
+				$sql = "select * from estatus where id_estatus=?";
+				$listo = $conn->prepare($sql);
+				$listo->bind_param('i',$id_estatus);
+				$listo->execute();
+				$result = $listo->get_result();
+				$valor_a = mysqli_fetch_object($result);
+				$valor_a =  $valor_a->precio;
+				#restandole el procedimiento al esatus removido
+				$valor_a-=$precio * $cantida_r;
+
+				#actualizando estatus
+				$sql = "update estatus set precio=? where id_estatus=?";
+				$ready  = $conn->prepare($sql);
+				$ready->bind_param('di',$valor_a,$id_estatus);
+				$ready->execute() or die("error al actualizar status");
+
+				echo  "sucess estatus actualizado con exito";
+
+
+}
 
 
 	function citas_search($data){
@@ -726,77 +755,152 @@ class Clinica
 
 	}
 
-	function descuentos($tipo,$id_estatus){
+	function descuentos($tipo,$id_estatus,$conf='planes',$descuento_manual=0){
 
 		global $conn;
+						$sql = "select * from estatus where id_estatus=?";
+						$leer =  $conn->prepare($sql);
+						$leer->bind_param('i',$id_estatus);
+						$leer->execute();
+						$data = $leer->get_result();
+						$total_estatus  = mysqli_fetch_object($data);
+						$total_estatus = $total_estatus->precio;
 
-				$sql = "select * from estatus where id_estatus=?";
-				$leer =  $conn->prepare($sql);
-				$leer->bind_param('i',$id_estatus);
-				$leer->execute();
-				$data = $leer->get_result();
-				$total_estatus  = mysqli_fetch_object($data);
-				$total_estatus = $total_estatus->precio;
+		if($conf=='planes'){
 
-				$descuesto_a=5;
-				$descuento_b=10;
-				$descuento_c=15;
+						
 
-
-
-		switch ($tipo) {
-			case 'a':
-					$descuento  = ($total_estatus * $descuesto_a) /100;
-					$total_estatus-=$descuento;
-					$sql = "update estatus set precio=? where id_estatus=?";
-					$actualizar = $conn->prepare($sql);
-					$actualizar->bind_param('di',
-						$total_estatus,
-						$id_estatus
-					);
-
-					$actualizar->execute() or die("erorr aplicando el descuento 'A'");
-					echo "descuento a aplicado correctamente!";
-				break;
-		
-			case 'b':
-					$descuento  = ($total_estatus * $descuento_b) /100;
-					$total_estatus-=$descuento;
-					$sql = "update estatus set precio=? where id_estatus=?";
-					$actualizar = $conn->prepare($sql);
-					$actualizar->bind_param('di',
-						$total_estatus,
-						$id_estatus
-					);
-
-					$actualizar->execute() or die("erorr aplicando el descuento 'B'");
-					echo "descuento a aplicado correctamente!";
+						$descuesto_a=5;
+						$descuento_b=10;
+						$descuento_c=15;
 
 
+
+				switch ($tipo) {
+					case 'a':
+							$descuento  = ($total_estatus * $descuesto_a) /100;
+							$total_estatus-=$descuento;
+							$sql = "update estatus set precio=? where id_estatus=?";
+							$actualizar = $conn->prepare($sql);
+							$actualizar->bind_param('di',
+								$total_estatus,
+								$id_estatus
+							);
+
+							$actualizar->execute() or die("algo salio mal");
+								$resp = [
+								'estatus'=>'success',
+								'descuento'=>$descuento
+
+							];
+
+
+							echo json_encode($resp);
+
+
+						break;
 				
-				break;
-		
+					case 'b':
+							$descuento  = ($total_estatus * $descuento_b) /100;
+							$total_estatus-=$descuento;
+							$sql = "update estatus set precio=? where id_estatus=?";
+							$actualizar = $conn->prepare($sql);
+							$actualizar->bind_param('di',
+								$total_estatus,
+								$id_estatus
+							);
 
-			case 'c':
-					$descuento  = ($total_estatus * $descuento_c) /100;
-					$total_estatus-=$descuento;
-					$sql = "update estatus set precio=? where id_estatus=?";
-					$actualizar = $conn->prepare($sql);
-					$actualizar->bind_param('di',
-						$total_estatus,
-						$id_estatus
-					);
+							$actualizar->execute() or die("algo salio mal");
 
-					$actualizar->execute() or die("erorr aplicando el descuento 'C'");
-					echo "descuento a aplicado correctamente!";
+							$resp = [
+								'estatus'=>'success',
+								'descuento'=>$descuento
+
+							];
 
 
+							echo json_encode($resp);
+
+
+
+
+						
+						break;
 				
-				break;
+
+					case 'c':
+							$descuento  = ($total_estatus * $descuento_c) /100;
+							$total_estatus-=$descuento;
+							$sql = "update estatus set precio=? where id_estatus=?";
+							$actualizar = $conn->prepare($sql);
+							$actualizar->bind_param('di',
+								$total_estatus,
+								$id_estatus
+							);
+
+							$actualizar->execute() or die("algo salio mal");
+
+								$resp = [
+								'estatus'=>'success',
+								'descuento'=>$descuento
+
+							];
+
+
+							echo json_encode($resp);
+
+
+						
+						break;
+
+
+				   case 'd':
+				   			//descuento de seguro
+				   			$descuento  = ($total_estatus * 30) /100;
+							$total_estatus-=$descuento;
+							$sql = "update estatus set precio=? where id_estatus=?";
+							$actualizar = $conn->prepare($sql);
+							$actualizar->bind_param('di',
+								$total_estatus,
+								$id_estatus
+							);
+
+							$actualizar->execute();
+
+								$resp = [
+								'estatus'=>'success',
+								'descuento'=>$descuento
+
+							];
+
+
+							echo json_encode($resp);
+							
+
+		
+				   	break;
+
+
+				}
+
+		}else if($conf=='descuento_manual'){
+
+   
+				$change =$total_estatus-$descuento_manual;
+
+							$sql = "update estatus set precio=? where id_estatus=?";
+							$actualizar = $conn->prepare($sql);
+							$actualizar->bind_param('di',
+								$change,
+								$id_estatus
+							);
+
+							$actualizar->execute() or die("erorr aplicando el descuento 'C'");
+							echo "descuento a aplicado correctamente!";
+
+
 
 		}
-
-
 
 
 	}

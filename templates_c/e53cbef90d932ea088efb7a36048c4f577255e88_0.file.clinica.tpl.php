@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 3.1.32-dev-38, created on 2018-05-06 14:15:57
+/* Smarty version 3.1.32-dev-38, created on 2018-07-10 17:32:52
   from 'C:\wamp\www\clinica\module\clinica.tpl' */
 
 /* @var Smarty_Internal_Template $_smarty_tpl */
 if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   'version' => '3.1.32-dev-38',
-  'unifunc' => 'content_5aef0e1de292f6_47240801',
+  'unifunc' => 'content_5b44edc478fa18_05776743',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     'e53cbef90d932ea088efb7a36048c4f577255e88' => 
     array (
       0 => 'C:\\wamp\\www\\clinica\\module\\clinica.tpl',
-      1 => 1525616156,
+      1 => 1531239343,
       2 => 'file',
     ),
   ),
@@ -20,7 +20,7 @@ if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   array (
   ),
 ),false)) {
-function content_5aef0e1de292f6_47240801 (Smarty_Internal_Template $_smarty_tpl) {
+function content_5b44edc478fa18_05776743 (Smarty_Internal_Template $_smarty_tpl) {
 ?>     
 <!--
 Author: W3layouts
@@ -475,7 +475,8 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 									</div>
 							   <!--//down-->
                            <div class="menu">
-									<ul id="menu" >
+									<ul id="menu">
+										<li><a href="#" id="ver_nominas"><i class="lnr lnr-pencil"></i> <span>Nominas</span></a></li>										
 										<li><a href="#" id="cita"><i class="lnr lnr-pencil"></i> <span>Registrar Cita</span></a></li>
 										<li id="r_doctor"><a href="#"><i class="lnr lnr-pencil"></i> <span>Registrar Doctor</span></a></li>
 										 <li  ><a href="#" id="citas"><i class="fa fa-table"></i> <span>Citas</span></a>

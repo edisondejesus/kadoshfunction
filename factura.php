@@ -57,9 +57,13 @@
 
 				 <div style="width:800px; display: inline-flex;">
 						<strong style="font-size:12px;">C/San Antonio #33A Los Alcarrizos Santo Domingo,R.D</strong>
-	   				
+	   					
 				</div>
 
+
+				 <div style="width:800px; display: inline-flex;">
+						<strong>RNC: 131-76629-3</strong>
+				</div>
 				 <div style="width:800px; display: inline-flex;">
 	      		<strong>Fecha: 			<?php  echo $datos['factura']->fecha_pago;  ?></strong>
 
@@ -80,7 +84,7 @@
 			<strong>Paciente: 	<?php echo $datos['cita']->paciente;   ?></strong>
 
 
-	    </div>
+	    	</div>
 
 	    <div style="width:800px; display: inline-flex;">
 	   		<strong>Doctor:<?php  echo " ".$datos['cita']->nombre." ".$datos['cita']->apellido;  ?></strong>
@@ -91,13 +95,16 @@
 	    	<div style="width:800px; display: inline-flex;">
 	      		<strong>Historial de procedimientos<strong>
 	      		<?php
+	      		$total = 0;
 
 				echo "<br>";
 	      			for($i=0;$i<count($datos['historial_p']);$i++){
 
-	      					echo  "<br><strong style='background:#F1F1F1;'>".$datos['historial_p'][$i]['procedimiento'] ." $".$datos['historial_p'][$i]['precio'].".00</strong>";
-
-
+	      					echo  "<br><strong style='background:#F1F1F1;'>".$datos['historial_p'][$i]['procedimiento'] ." $".$datos['historial_p'][$i]['precio'].".00</strong>
+	      					"."<strong>X ".$datos['historial_p'][$i]['cantidad']."</strong>
+	      					";
+	      					echo "$".$datos['historial_p'][$i]['cantidad'] * $datos['historial_p'][$i]['precio'];
+	      					$total+= $datos['historial_p'][$i]['cantidad'] * $datos['historial_p'][$i]['precio'];
 	      			}
 
 
@@ -109,19 +116,10 @@
 	    	<?php
 
 	    		if($datos["factura"]->concepto_pago!="completo"){
-
-	    				$total=0;
-
-	    				for($i=0;$i<count($datos['historial_p']);$i++){
-
-	      					$total+=$datos['historial_p'][$i]['precio'];
+	    		
 
 
-
-	      				}
-
-
-	      				echo "<strong style='margin-left:30%; '>Total ".$total.".00</strong><br>";
+	      				echo "<strong style='margin-left:30%; '>Total:$ ".$total.".00</strong><br>";
 
 	   					echo "<strong style='margin-left:30%;'>Abono:$".$datos['factura']->monto."</strong>";
 	   			 
@@ -132,21 +130,12 @@
 
 
 	    		}else{
-	    			$total=0;
-
-	    				for($i=0;$i<count($datos['historial_p']);$i++){
-
-	      					$total+=$datos['historial_p'][$i]['precio'];
+	    		
 
 
+	      				echo "<strong style='margin-left:15%; margin-top:3%;'>Total $".$total.".00</strong>";
 
-	      				}
-
-
-
-	      				echo "<strong style='margin-left:15%; margin-top:3%;'>Total ".$total.".00</strong>";
-
-	      				echo "</br>Monto:". $datos['factura']->monto; 
+	      				echo "</br>Monto:$". $datos['factura']->monto; 
 
 
 	    		}
@@ -163,14 +152,20 @@
 
 	    	</div>
 
+	    	 <div style="width:800px; display: inline-flex;">
+	      	
+	      		<strong>Tipo de pago: 			<?php  echo $datos['factura']->tipo_de_pago;  ?></strong>
 
+	    	</div>
+
+	    	
 
 	    
 	      
 	    	<div style="width:800px; display: inline-flex;">
 	   			<strong>Doctor:<?php  echo " ".$datos['cita']->nombre." ".$datos['cita']->apellido;  ?></strong>
-
-
+	   		
+	   			
 	    	</div>
 
 
@@ -188,6 +183,8 @@
 	    	</div>
 
 
+
+	    
 
 	</div>
 	

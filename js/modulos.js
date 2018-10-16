@@ -1,6 +1,176 @@
 
-
 	var control_f=false;
+	var caractares_i="";
+	var reference = 0;
+	var  cantidad_r;
+	var focus = true;
+	var target_select="";
+	var cantidad_proc= 0;
+	var tipo_de_pago ="";
+
+	function process_display(id_process){
+		//para mostrar el procedimiento funcion lista
+		process_on = true;
+
+		if(process_on!=false){
+
+			window.location.href=`process.php?id=${id_process}`;
+		}
+
+		process_on = false;
+
+	}
+
+	function type_pay(target){
+
+		var interfaz_tipo_pago =`
+			<div class='panel panel-body' id='slp${target}'>
+					<div class='panel-heading'>Seleccione el tipo de pago<div>
+					<div>
+						<button class='btn btn-primary' id='efectivo'>Efectivo</button>
+						<button class='btn btn-success' id='targeta'>Targeta</button>
+						<button class='btn btn-info' id=;>Cheque</button>
+					</div>	
+			</div>
+		`;
+
+		$(`#tp${target}`).html(interfaz_tipo_pago);
+
+
+
+
+	}
+
+	function ventana_actualizacion(){
+
+	
+			var notificacion = `
+			<div style='background:black;  position:absolute; z-index:4;opacity:0.8; color:gold; height:100%; width:100%;'>
+				<h2 style='margin-left:40%'>Nuevas actualizaciones (01/10/2018)</h2>
+				<h3 style='margin-left:30%'>- Problema del click solucionado si no cambie mause</h3>
+				<h3 style='margin-left:30%'>- Ya puedes seleccionar el metodo de pago que saldra en la factura</h3>
+				<h3 style='margin-left:30%'>- Ya puedes seleccionar la canitdad de procedimiento que vas a guardar</h3>
+				<h3 style='margin-left:30%'>- Si registra X cuantidad de procedimientos tambien puedes removerla y se guardar en el sistema la resta de la cantidad que removiste</h3>
+				<h3 style='margin-left:30%'>- Eliminar citas (disponible) saliendo una ventana de seguridad si aceptar o cancelar</h3>
+				<h3 style='margin-left:50%'><button style='color:black;' id='entiendo'>Entiendo</button></h3>
+
+			</div>
+			`;
+
+			$('#notificacion').html(notificacion);
+
+			$('#entiendo').click(()=>{
+
+				$.ajax({
+					url:'metodos.php',
+					type:'post',
+					data:{
+						leido:"confirmado"
+					}
+
+
+				}).done((data)=>{
+
+						console.log(data);
+
+						$('#notificacion').html("");
+
+
+				});
+
+
+
+			});
+	}
+
+
+
+
+	function select_process(target){
+
+			/*
+			cantidad_proc = prompt("Ingrese la cantidad de procedimiento");
+
+
+				alert(cantidad_proc);
+			*/
+	}
+
+
+	function select_hours(dato){
+		
+		if(dato=='remove'){
+
+		 var long =	caractares_i.length;
+
+
+		 	var new_string =  caractares_i.substring(long-1,0);
+		 	caractares_i = new_string;
+
+					$('#interfaz_hora_r').val(caractares_i);
+
+
+
+		}else{
+		caractares_i+= dato;
+
+			
+			$('#interfaz_hora_r').val(caractares_i);
+        }
+
+
+	}
+
+
+	function descuento_manual(id_estatus){
+		//aqui
+		var infertaz_descuento=`
+		<div style='left:500px; border-color:black; border:2px solid;  width:500px; margin-top:-200px; position:absolute; z-index:5' id='interfaz_d'>
+			<div class='panel panel-default'>
+					<input type='text' id='descuento_manual_d' class='form-control' placeholder='Digite el descuento'>
+						<button class='btn btn-info' id='aplicar_descuento_manual'>Aplicar Descuento</button>
+						<button class='btn btn-danger' id='cerrar'>Cerrar</button>
+
+			</div>
+		</div>
+		`;
+
+		$('#base_descuento').html(infertaz_descuento);
+
+
+		$('#cerrar').click(()=>{
+
+				$('#interfaz_d').remove();
+
+		});
+
+		$('#aplicar_descuento_manual').click(()=>{
+
+
+				$.ajax({
+					url:'metodos.php',
+					type:'post',
+					data:{
+						aplicar_descuento_manual:true,
+						id_estatus:id_estatus,
+						monto:$('#descuento_manual_d').val()
+
+					}
+
+
+				}).done((data)=>{
+
+							console.log(data);
+							cargar_estatus();
+				});
+
+
+		});
+
+
+	}
+
+
 
 	function select_dr_update(id_doctor,img){
 
@@ -48,6 +218,8 @@
 
 
 	function doctor_search(){
+			reference=0;
+
 
 
 		$('#doctor_s').keypress(function(){
@@ -99,6 +271,7 @@
 	}
 
 	function activar_abono(){
+			reference=0;
 
 
 				$('#interfaz_abono').show('slow');
@@ -108,7 +281,7 @@
 	}
 
 	function  editar_cita(id_cita){
-
+			reference=0;
 
 		$.ajax({
 			url:'metodos.php',
@@ -231,7 +404,7 @@
 
 
 	function eliminar_sub_cita(id_sub_cita){
-
+			reference=0;
 		$.ajax({
 			url:'metodos.php',
 			type:'post',
@@ -253,7 +426,7 @@
 	}
 
 	function editar_sub_cita(id_sub_cita){
-
+	reference=0;
 			$.ajax({
 				url:'metodos.php',
 				type:'post',
@@ -318,7 +491,7 @@
 
 
 	function aplicar_descuento(tipo,id_estatus){
-
+			reference=0;
 		$.ajax({
 			url:'metodos.php',
 			type:'post',
@@ -332,7 +505,8 @@
 
 		}).done((data)=>{
 
-			alert(data);
+			var resp = JSON.parse(data);
+			console.log(resp);
 
 			cargar_estatus();
 
@@ -342,7 +516,7 @@
 	}
 
 	function eliminar_procedimiento(id_procedimiento){
-
+			reference=0;
 		$.ajax({
 			url:'metodos.php',
 			type:'post',
@@ -392,6 +566,7 @@
 					<input type='text' value='${dato.procedimiento}' id='process_name' class='form-control'><br>
 					<strong>Precio</strong><br>
 					<input type='text' value='${dato.precio}' id='process_price' class='form-control'>
+					<input type='text' class='form-control' placeholder='Busca el procedimiento'>
 					<button class='btn btn-primary' id='actualizar_process'>Actualizar procedimiento</button>	
 
 				</div>
@@ -435,7 +610,7 @@
 
 
 	function editar_procedimiento(){
-
+			reference=0;
 			$.ajax({
 				url:'metodos.php',
 				type:'post',
@@ -519,7 +694,7 @@
 
 
 	function agregar_sub_cita(id_estatus){
-
+			reference=0;
 			var formulario_sub_cita=`<button onclick='cargar_estatus();' class='btn btn-primary'>Atras</button>
 			<div>
 				<strong>Dia de cita</strong><br>
@@ -566,7 +741,7 @@
 
 
 	function buscando_citas(buscar){
-
+			reference=0;
 					$.ajax({
 
 							url:'metodos.php',
@@ -591,6 +766,7 @@
 									<th>Fecha</th>
 									<th>Procesar</th>
 									<th>Editar Cita</th>
+									<th>Elimianr Cita</th>
 
 								<tr>
 								`;
@@ -601,14 +777,14 @@
 
 									citas+=`
 									<tr>
-										<td>${key.paciente}</td>
+										<td id='ci${key.id_cita}'>${key.paciente}</td>
 										<td>${key.telefono}</td>
 										<td>${key.nombre} ${key.apellido}</td>
 										<td>${key.asunto}</td>
-										<td>${key.fecha_cita} ${key.hora_minuto}</td>
-										<td><button class='btn btn-primary' onclick="location.href='process.php?id=${key.id_cita}';">Procesar</button></td>
-										<td><button class='btn btn-info' onclick='eliminar_cita(${key.id_cita})'>Editar Cita</button></td>
-
+										<td>${key.fecha_cita.substring(0,11)} ${key.hora_minuto}</td>
+										<td><button class='btn btn-primary' onclick="process_display('${key.id_cita}')">Procesar</button></td>
+										<td><button class='btn btn-info' onclick='editar_cita(${key.id_cita})'>Editar Cita</button></td>
+										<td><button class='btn btn-danger' onclick='eliminar_cita(${key.id_cita})' >Eliminar</button></td>
 									</tr>
 									`;
 
@@ -635,6 +811,7 @@
 
 
 	function historial_procedimiento(id_estatus){
+			//reference
 
 		$.ajax({
 			url:'metodos.php',
@@ -642,7 +819,7 @@
 			data:{
 
 				load_process:true,
-				id_estatus:id_estatus
+				id_estatus:id_estatus,
 			}
 
 
@@ -656,8 +833,10 @@
 
 					procedimientos+=`<div class='panel-body'>
 						<strong>Procedimiento ${key.procedimiento}</strong><br>
-						<strong>Precio ${key.precio}</strong>
+						<strong>Precio ${key.precio}</strong>|<strong>X ${key.cantidad}</strong>
 						<button class='btn btn-danger' onclick="remover_procedimiento('${key.id_hostorial}','${key.precio}');">Remover</button>
+						
+
 					</div>`;
 
 			});
@@ -669,9 +848,12 @@
 			if($('#process_list').val())
 			$('#process_list').remove();
 
+			if(reference==0){
+					reference=1;
+			   $('#ejecutar').append(procedimientos);
 
-			$('#ejecutar').append(procedimientos);
-
+		    }
+	
 		});
 
 
@@ -683,7 +865,10 @@
 
 
 	function remover_procedimiento(id_historial,precio){
-
+			reference=0;
+			//remover procedimiento
+		var cantidad_e = prompt("Cantidad que eliminar");
+		 	//console.log(cantidad_e);
 
 		$.ajax({
 			url:'metodos.php',
@@ -691,7 +876,8 @@
 			data:{
 				remover_procedimiento:true,
 				id_historial:id_historial,
-				cantidad:precio
+				cantidad:precio,
+				cantidad_r:cantidad_e
 			}
 
 		}).done((data)=>{
@@ -707,10 +893,31 @@
 
 
 	function eliminar_cita(id_cita){
+				reference=0;
 
-			alertify.confirm("Seguro que deseas eliminar esta cita?",()=>{
+			var ventana_elimi = `
+				<div class='panel panel-default' id='ven${id_cita}' style='z-index:3px; position:absolute; opacity:0.9; background:darkblue; margin-left:500px;'>
+					<i style='color:white'>Eliminar Cita</i>
+					<button id='eliminar_c' class='btn btn-danger'>Aceptar</button>
+					<button id='cancelar_c' class='btn btn-primary'>Cancelar</button>
+				</div>
+			`;
 
-					$.ajax({
+
+			$(`#ci${id_cita}`).html(ventana_elimi);
+ 
+			$('#cancelar_c').click(()=>{
+
+					$(`#ven${id_cita}`).remove();
+
+
+			});
+
+			$('#eliminar_c').click(()=>{
+
+
+
+						$.ajax({
 						url:'metodos.php',
 						type:'post',
 						data:{
@@ -722,24 +929,21 @@
 
 					}).done(function(data){
 
-							alertify.success(data);
+								alert(data);
 
-
+							$(`#ven${id_cita}`).remove();
+							citas_read();
 
 					});
 
 
+			});
 
 
 
-			},
-			()=>{
 
-
-
-			}
-			);
-
+				
+					
 
 
 
@@ -748,6 +952,10 @@
 
 
 	function guardar_procedimiento(id_estatus,id_procedimiento){
+			reference=0;
+			var cantidad_p = prompt("Ingrese la cantidad de procedimiento");
+
+
 
 			$.ajax({
 				url:'metodos.php',
@@ -755,7 +963,8 @@
 				data:{
 					agregar_procedimiento:true,
 					id_estatus:id_estatus,
-					id_procedimiento:id_procedimiento
+					id_procedimiento:id_procedimiento,
+					cantidad_procedimiento:cantidad_p
 				}
 
 			}).done((resp)=>{
@@ -825,11 +1034,32 @@
 
 
 	function procesarPago(abono){
-		
+			reference=0;
 
 
 		var monto = $('#abono_pagado').val();
 		monto  = parseInt(monto);
+		var tipo_de_pago = prompt("Seleccione el tipo de pago 1 -Efectivo  2 - Targeta 3 - Cheque")
+
+		if(tipo_de_pago=="1"){
+
+			tipo_de_pago = "efectivo";
+
+		}else if(tipo_de_pago=="2"){
+
+			tipo_de_pago = "targeta";
+
+		}else if(tipo_de_pago=="3"){
+
+			tipo_de_pago = "cheque";
+
+		}else if(tipo_de_pago==""){
+
+			alert("Tiene que seleccionar un tipo de pago");
+
+			return;
+		}
+
 
 		$.ajax({
 			url:'metodos.php',
@@ -838,7 +1068,8 @@
 				id_estatus:$('#id_estatus').val(),
 				general_factura:true,
 				abono:abono,
-				monto:monto
+				monto:monto,
+				type_pay:tipo_de_pago
 
 
 			}
@@ -863,7 +1094,7 @@
 
 
 	function create_estatus(){
-
+			reference=0;
 					$.ajax({
 						url:'metodos.php',
 						type:'post',
@@ -887,6 +1118,7 @@
 
 
 		function  cargar_estatus(){
+				reference=0;
 
 				function dropdwon_process(){
 						$.ajax({
@@ -969,10 +1201,16 @@
 									<li><a style='cursor:pointer;' onclick="aplicar_descuento('a',${data.id_estatus});">Plan A</a></li>
 									<li><a style='cursor:pointer;' onclick="aplicar_descuento('b',${data.id_estatus});">Plan B</a></li>
 									<li><a style='cursor:pointer;' onclick="aplicar_descuento('c',${data.id_estatus});">Plan C</a></li>
+									<li><a style='cursor:pointer; background:darkblue; color:white;' onclick="aplicar_descuento('d',${data.id_estatus});">Aplicar Seguro</a></li>
+
+									<li style='background:gold'><a style='cursor:pointer;' onclick="descuento_manual(${data.id_estatus});">Descuento Manual</a></li>
 								<ul>
 							</div>
-							<div class='dropdown'>
-							<button class='btn btn-primary dropdown-toggle' data-toggle='dropdown'>+ procedimiento</button>		
+							<div id='base_descuento'></div>
+							<div class='dropdown'><br>
+								<strong>Buscar procedimiento</strong>
+								<input type='text' class='form-control' id='w_procedimiento' placeholder='Buque el procedimiento'>
+								<div id='procedimiento_r'></div>	
 								<ul class='dropdown-menu' style='float:right' id='process_menu' onclick='dropdwon_process()'>
 						
 								</ul>
@@ -987,6 +1225,58 @@
 
 
 					$('#ejecutar').html(template);
+					var id_estatus = $('#id_estatus').val();
+
+
+					$('#w_procedimiento').keypress(function(){
+
+							
+						var datos="";
+							
+							$.ajax({
+								url:'metodos.php',
+								type:'post',
+								data:{
+									filtrar_procedimiento:true,
+									key:$('#w_procedimiento').val()
+
+								}
+							}).done((data)=>{
+									//get]
+									var object_p = JSON.parse(data);
+									object_p.forEach((key)=>{
+
+
+											datos+=`<br><div class='panel-body' id="sp${key.id_procedimiento}" onclick="select_process(${key.id_procedimiento})">
+													<div class='panel-heading'>
+															<strong style='margin-left:1%;'>${key.procedimiento}<strong>
+													</div>
+													<button class='btn btn-success' onclick="guardar_procedimiento(${id_estatus},${key.id_procedimiento})">+Agregar Procedimiento</button>
+													Costo:$ ${key.precio}|
+
+											</div>
+
+											<br>`;
+
+
+
+
+									});
+
+								$('#procedimiento_r').html(datos);
+
+
+							});
+						
+
+
+
+					});
+
+						
+
+
+
 					dropdwon_process();
 					cargar_facturas();
 
@@ -1002,7 +1292,7 @@
 
 
 	function guardar_estatus(id_cita){
-
+			reference=0;
 		$.ajax({
 			url:'metodos.php',
 			type:'post',
@@ -1060,7 +1350,7 @@
 	}*/
 
 		function citas_read(){
-
+					reference=0;
 				$.ajax({
 							url:'metodos.php',
 							type:'post',
@@ -1082,6 +1372,8 @@
 									<th>Fecha</th>
 									<th>Procesar</th>
 									<th>Editar Cita</th>
+									<th>Eliminar Cita</th>
+
 								<tr>
 								`;
 
@@ -1091,14 +1383,15 @@
 
 									citas+=`
 									<tr>
-										<td>${key.paciente}</td>
+										<td id='ci${key.id_cita}'>${key.paciente}</td>
 										<td>${key.telefono}</td>
 										<td>${key.nombre} ${key.apellido}</td>
 										<td>${key.asunto}</td>
-										<td>${key.fecha_cita} ${key.hora_minuto}</td>
-										<td><button class='btn btn-primary' onclick="location.href='process.php?id=${key.id_cita}';">Procesar</button></td>
+										<td>${key.fecha_cita.substring(0,11)} ${key.hora_minuto}</td>
+										<td><button class='btn btn-primary' onclick="process_display('${key.id_cita}')">Procesar</button></td>
 										<td><button class='btn btn-info' onclick='editar_cita(${key.id_cita})'>Editar cita</button></td>
-
+										<td><button class='btn btn-danger' onclick='eliminar_cita(${key.id_cita})' >Eliminar</button></td>
+	
 									</tr>
 									`;
 
@@ -1119,6 +1412,18 @@
 
 
 $('document').ready(function(){
+
+
+	$.ajax({
+		url:'cello.txt'
+
+	}).done((data)=>{
+
+			if(data!=="confirmado"){
+					ventana_actualizacion();
+			}
+
+	});
 
 	$('#buscando').keypress(()=>{
 
@@ -1150,7 +1455,7 @@ $('document').ready(function(){
 
 
 		$('#guardar_process').click(()=>{
-
+				reference=0;
 				$.ajax({
 					url:'metodos.php',
 					type:'post',
@@ -1189,6 +1494,7 @@ $('document').ready(function(){
 
 
 		$('#cita').click(function(){
+
 			var count = 0;
 
 			var formulario = `
@@ -1215,15 +1521,9 @@ $('document').ready(function(){
 
 			$('#ejecutar').html(formulario);
 
-			
+			/*
 			$('#hora_minuto').hover(()=>{
 
-				function select_hours(dato){
-						alert('mierda!!');
-
-						$('#interfaz_hora_r').val(dato);
-
-				}
 
 			
 				if(count==0){	
@@ -1243,28 +1543,47 @@ $('document').ready(function(){
 							<button class='btn btn-primary' onclick='select_hours(7)'>7</button>
 							<button class='btn btn-primary' onclick='select_hours(8)'>8</button><br>
 							<button class='btn btn-primary' onclick='select_hours(9)'>9</button>
-							<button class='btn btn-primary' onclick="select_hours(":")">:</button>
+							<button class='btn btn-primary' onclick="select_hours(':')">:</button>
 							<input type='text' id='interfaz_hora_r' >
 							<br>
-							<button class='btn btn-primary'>PM</button>
-							<button class='btn btn-primary'>AM</button>
+							<button class='btn btn-primary' onclick="select_hours('PM')">PM</button>
+							<button class='btn btn-primary' onclick="select_hours('AM')">AM</button>
 
-								<button class='btn btn-success'>Aplicar</button><br>
-								<button class='btn btn-danger'>Cerrar</button>
-
-
+								<button class='btn btn-success'  id='aplicar'>Aplicar</button><br>
+								<button class='btn btn-danger' id='cerrar_i'>Cerrar</button>
+								<button class='btn btn-danger' id='cerrar_i' onclick="select_hours('remove')"><=</button>
 
 						</div>
 					</div>
 				`;
 
 				$(this).append(interfaz_hora);
+				$('#cerrar_i').click(()=>{
+
+						$('#hora_select').hide('slow',function(){
+
+									$('#hora_select').remove();	
+
+						});
+					
+
+				});
+				$('#aplicar').click(()=>{
+
+					$('#hora_minuto').val(caractares_i);
+
+					$('#hora_select').remove();
+
+				});
+
+
+
 			}
 
 			},()=>{
 			
 			});
-			
+			*/
 
 			doctor_search();
 

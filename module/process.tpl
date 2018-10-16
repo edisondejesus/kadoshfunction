@@ -461,6 +461,7 @@ $('document').ready(function(){
 							   <!--//down-->
                            <div class="menu">
 									<ul id="menu" >
+										<li><a href="#" id="ver_nominas"><i class="lnr lnr-pencil"></i> <span>Nominas</span></a></li>	
 										<li><a href="#" id="cita"><i class="lnr lnr-pencil"></i> <span>Registrar Cita</span></a></li>
 										<li id="r_doctor"><a href="#"><i class="lnr lnr-pencil"></i> <span>Registrar Doctor</span></a></li>
 										 <li id="citas" ><a href="#"><i class="fa fa-table"></i> <span>Citas</span> <span class="fa fa-angle-right" style="float: right"></span></a>
