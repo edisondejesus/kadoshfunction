@@ -1,4 +1,4 @@
-
+//Esto solo es una prueba del cambio en conflictos
 Vue.component('cabezera',{
 
 
@@ -55,7 +55,7 @@ Vue.component('citas',{
 });
 
 
-Vue.component('estatus',{
+Vue.component('stat',{
 
 
 	props:['data'],
