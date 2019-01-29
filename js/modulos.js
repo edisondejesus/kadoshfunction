@@ -1371,6 +1371,7 @@
 								<tr>
 									<th>Paciente</th>
 									<th>Telefono</th>
+									<th>Cedula</th>
 									<th>Doctor</th>
 									<th>Asunto</th>
 									<th>Fecha</th>
@@ -1389,6 +1390,7 @@
 									<tr>
 										<td id='ci${key.id_cita}'>${key.paciente}</td>
 										<td>${key.telefono}</td>
+										<td>${key.cedula}</td>
 										<td>${key.nombre} ${key.apellido}</td>
 										<td>${key.asunto}</td>
 										<td>${key.fecha_cita.substring(0,11)} ${key.hora_minuto}</td>
