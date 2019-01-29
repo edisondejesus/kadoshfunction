@@ -4,6 +4,7 @@
 
 	$app = new Clinica();
 
+	Clinica::make_fiels();
 
 	if(isset($_POST['doctor'])){ 
 		$doctor = $_POST['doctor'];

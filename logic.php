@@ -31,6 +31,19 @@ class Clinica
 
 		}
 
+	public static function make_fiels(){
+
+			global $conn;
+
+			$sql =  "alter table factura add cmf int";
+			$exec = $conn->query($sql);
+			$sql = "alter table cita add cedula varchar(200),add fecha_nacimiento date";
+			$exec =$conn->query($sql);
+
+
+
+
+	}
 
 	public static function comprobante_fiscal(){
 			global $conn;
