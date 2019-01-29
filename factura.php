@@ -64,6 +64,14 @@
 				 <div style="width:800px; display: inline-flex;">
 						<strong>RNC: 131-76629-3</strong>
 				</div>
+
+				<div style="width:800px; display: inline-flex;">
+	   			
+	   				<strong>Credito Fiscal de consumo <?php Clinica::show_cmf(); ?></strong>
+	   		
+	   			
+	    		</div>
+
 				 <div style="width:800px; display: inline-flex;">
 	      		<strong>Fecha: 			<?php  echo $datos['factura']->fecha_pago;  ?></strong>
 
@@ -167,6 +175,8 @@
 	   		
 	   			
 	    	</div>
+
+
 
 
 	    	<div style="width:800px; display: inline-flex;">

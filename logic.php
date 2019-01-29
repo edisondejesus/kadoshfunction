@@ -32,6 +32,30 @@ class Clinica
 		}
 
 
+	public static function comprobante_fiscal(){
+			global $conn;
+			
+			$sql = "select cmf from factura order by id_factura desc limit 1";
+			$get_cmf = $conn->query($sql);
+			$get_cmf = mysqli_fetch_object($get_cmf);
+
+			return $get_cmf->cmf;
+
+	}
+
+
+	public static function show_cmf(){
+
+				$u  = "b0";
+				$valor  = 200000000;
+
+				$c = Clinica::comprobante_fiscal();
+			 	$valor_actual= $c;
+					echo $u;
+					echo $valor+$valor_actual;
+			//pasar valor actual a la factura
+	}
+
 	function generar_reporte($id_estatus,$id_factura){
     
 
@@ -170,12 +194,12 @@ class Clinica
 	
 
 
- function crear_cita($fecha_cita,$hora_minuto,$asunto,$id_doctor,$paciente,$telefono,$conn){
+ function crear_cita($fecha_cita,$hora_minuto,$asunto,$id_doctor,$paciente,$telefono,$cedula,$hbd,$conn){
  				
 
-				$sql = "insert into cita(fecha_cita,hora_minuto,asunto,id_doctor,paciente,telefono) values(?,?,?,?,?,?)";
+				$sql = "insert into cita(fecha_cita,hora_minuto,asunto,id_doctor,paciente,telefono) values(?,?,?,?,?,?,?,?)";
 				$ok = $conn->prepare($sql);
-				$ok->bind_param('sssiss',$fecha_cita,$hora_minuto,$asunto,$id_doctor,$paciente,$telefono);
+				$ok->bind_param('sssissss',$fecha_cita,$hora_minuto,$asunto,$id_doctor,$paciente,$telefono,$cedula,$hbd);
 				$ok->execute() or die("no se registro");
 				echo "success";
 
@@ -199,6 +223,7 @@ class Clinica
 		function generar_factura($monto,$id_estatus,$concepto_pago,$abono=false,$conn,$tipo_de_pago){
 
 			#debug 
+			$cmf = Clinica::comprobante_fiscal()+1;
 
 			$dia = date("ymd");
 			echo $monto." ".$id_estatus." ".$concepto_pago." ".$abono;
@@ -213,9 +238,9 @@ class Clinica
 			if($abono=="abono"){
 							$this->actualizar_estatus($id_estatus,$monto);
 
-				$sql = "insert into factura (monto,concepto_pago,id_estatus,ganancia_clinica,ganancia_doctor,fecha_pago,dia,tipo_de_pago)values(?,?,?,?,?,?,?,?)";
+				$sql = "insert into factura (monto,concepto_pago,id_estatus,ganancia_clinica,ganancia_doctor,fecha_pago,dia,tipo_de_pago,cmf)values(?,?,?,?,?,?,?,?,?)";
 				$guardar = $conn->prepare($sql);
-				$guardar->bind_param('dsiddsss',
+				$guardar->bind_param('dsiddsssi',
 					$monto,
 					$concepto_pago,
 					$id_estatus,
@@ -223,8 +248,8 @@ class Clinica
 					$ganancia_doctor,
 					$fecha_pago,
 					$dia,
-					$tipo_de_pago
-
+					$tipo_de_pago,
+					$cmf
 				);
 
 				$guardar->execute();
@@ -253,7 +278,7 @@ class Clinica
 
 
 				
-				$sql = "insert into factura (monto,concepto_pago,id_estatus,ganancia_clinica,ganancia_doctor,fecha_pago,dia)values(?,?,?,?,?,?,?)";
+				$sql = "insert into factura (monto,concepto_pago,id_estatus,ganancia_clinica,ganancia_doctor,fecha_pago,dia,cmf)values(?,?,?,?,?,?,?,?)";
 				$guardar = $conn->prepare($sql);
 				$guardar->bind_param('dsiddss',
 					$monto,
@@ -262,7 +287,8 @@ class Clinica
 					$ganancia_clinica,
 					$ganancia_doctor,
 					$fecha_pago,
-					$dia
+					$dia,
+					$cmf
 
 				);
 

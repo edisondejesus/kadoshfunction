@@ -325,7 +325,9 @@
 				<input type='text' class='form-control' id='hora_a' value='${data.hora_minuto}'><br>
 				<strong>Telefono</strong><br>
 				<input type='text' value='${data.telefono}'  class='form-control' id='telefono_a'><br>
-				<strong>Asunto</strong>
+				<strong>Cedula</strong><br>
+				<input type='text' class='form-control' class='form-control' value='${data.cedula}'><br>
+				<strong>Asunto</strong><br>
 				<textarea id='asunto_a' class='form-control'>${data.asunto}</textarea><br>
 				<strong>DNI</strong><br>
 				<input type='text' class='form-control' value='${data.dni}' id='dni_a'>
@@ -761,6 +763,7 @@
 								<tr>
 									<th>Paciente</th>
 									<th>Telefono</th>
+									<th>Cedula</th>
 									<th>Doctor</th>
 									<th>Asunto</th>
 									<th>Fecha</th>
@@ -780,6 +783,7 @@
 										<td id='ci${key.id_cita}'>${key.paciente}</td>
 										<td>${key.telefono}</td>
 										<td>${key.nombre} ${key.apellido}</td>
+										<td>${key.cedula}</td>
 										<td>${key.asunto}</td>
 										<td>${key.fecha_cita.substring(0,11)} ${key.hora_minuto}</td>
 										<td><button class='btn btn-primary' onclick="process_display('${key.id_cita}')">Procesar</button></td>
@@ -1505,6 +1509,10 @@ $('document').ready(function(){
 				<input type='text' id='telefono' class='form-control'>
 			<strong>Asunto</strong>
 			<textarea id='asunto' class='form-control'></textarea>
+			<strong>Cumple años</strong>
+			<input type='date' id='hbd' class='form-control'>
+			<strong>Cedula</strong>
+			<input type='text' class='form-control' id='cedula'>
 			<strong>Fecha de cita</strong>
 			<input type='date' class='form-control' id='fecha_cita'>
 			<strong>Hora de cita</strong>
@@ -1607,7 +1615,9 @@ $('document').ready(function(){
 							asunto:$('#asunto').val(),
 							id_doctor:$('#id_doctor').val(),
 							paciente:$('#paciente').val(),
-							telefono:$('#telefono').val()
+							telefono:$('#telefono').val(),
+							cedula:$('#cedula').val(),
+							hbd:$('#hbd').val()
 
 						}
 					}).done(function(resp){

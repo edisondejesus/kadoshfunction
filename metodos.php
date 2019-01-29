@@ -31,8 +31,10 @@
 		$paciente = $_POST['paciente'];
 		$id_procedimiento = $_POST['id_procedimiento'];
 		$telefono = $_POST['telefono'];
+		$cedula = $_POST['cedula'];
+		$hbd = $_POST['hbd'];
 
-		$app->crear_cita($fecha_cita,$hora_minuto,$asunto,$id_doctor,$paciente,$telefono,$conn);
+		$app->crear_cita($fecha_cita,$hora_minuto,$asunto,$id_doctor,$paciente,$telefono,$cedula,$hbd,$conn);
 
 
 	}
