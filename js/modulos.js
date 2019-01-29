@@ -46,12 +46,11 @@
 	
 			var notificacion = `
 			<div style='background:black;  position:absolute; z-index:4;opacity:0.8; color:gold; height:100%; width:100%;'>
-				<h2 style='margin-left:40%'>Nuevas actualizaciones (01/10/2018)</h2>
-				<h3 style='margin-left:30%'>- Problema del click solucionado si no cambie mause</h3>
-				<h3 style='margin-left:30%'>- Ya puedes seleccionar el metodo de pago que saldra en la factura</h3>
-				<h3 style='margin-left:30%'>- Ya puedes seleccionar la canitdad de procedimiento que vas a guardar</h3>
-				<h3 style='margin-left:30%'>- Si registra X cuantidad de procedimientos tambien puedes removerla y se guardar en el sistema la resta de la cantidad que removiste</h3>
-				<h3 style='margin-left:30%'>- Eliminar citas (disponible) saliendo una ventana de seguridad si aceptar o cancelar</h3>
+				<h2 style='margin-left:40%'>Nuevas actualizaciones (29/1/2019)</h2>
+				<h3 style='margin-left:30%'>-Comprobante fiscal agregado a la factura</h3>
+				<h3 style='margin-left:30%'>-Campo de cedula al forumulario de paciente</h3>
+				<h3 style='margin-left:30%'>-Campo de Cumple Años al formulario de paciente</h3>
+				<h3 style='margin-left:30%'>-Ahora se muestra el pago en efectivo</h3>
 				<h3 style='margin-left:50%'><button style='color:black;' id='entiendo'>Entiendo</button></h3>
 
 			</div>
@@ -1019,7 +1018,7 @@
 								<strong>MONTO:${key.monto}</strong><br>
 								<strong>FECHA DE PAGO:${key.fecha_pago}</strong><br>
 								<strong>GANANCIA DOCTOR:${key.ganancia_doctor}</strong><br>
-								<strong>GANANCIA DOCTOR:${key.ganancia_clinica}</strong><br>
+								<strong>GANANCIA CLINICA:${key.ganancia_clinica}</strong><br>
 								<strong>RESTO A PAGAR:${key.precio}</strong>
 							</div>	
 						</div>
@@ -1282,7 +1281,7 @@
 
 
 					dropdwon_process();
-					cargar_facturas();
+					traer_facturas();
 
 
 				});

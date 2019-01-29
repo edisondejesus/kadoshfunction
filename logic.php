@@ -197,7 +197,7 @@ class Clinica
  function crear_cita($fecha_cita,$hora_minuto,$asunto,$id_doctor,$paciente,$telefono,$cedula,$hbd,$conn){
  				
 
-				$sql = "insert into cita(fecha_cita,hora_minuto,asunto,id_doctor,paciente,telefono) values(?,?,?,?,?,?,?,?)";
+				$sql = "insert into cita(fecha_cita,hora_minuto,asunto,id_doctor,paciente,telefono,cedula,fecha_nacimiento) values(?,?,?,?,?,?,?,?)";
 				$ok = $conn->prepare($sql);
 				$ok->bind_param('sssissss',$fecha_cita,$hora_minuto,$asunto,$id_doctor,$paciente,$telefono,$cedula,$hbd);
 				$ok->execute() or die("no se registro");
@@ -278,9 +278,9 @@ class Clinica
 
 
 				
-				$sql = "insert into factura (monto,concepto_pago,id_estatus,ganancia_clinica,ganancia_doctor,fecha_pago,dia,cmf)values(?,?,?,?,?,?,?,?)";
+				$sql = "insert into factura (monto,concepto_pago,id_estatus,ganancia_clinica,ganancia_doctor,fecha_pago,dia,cmf,tipo_de_pago)values(?,?,?,?,?,?,?,?)";
 				$guardar = $conn->prepare($sql);
-				$guardar->bind_param('dsiddss',
+				$guardar->bind_param('dsiddssis',
 					$monto,
 					$concepto_pago,
 					$id_estatus,
@@ -288,7 +288,8 @@ class Clinica
 					$ganancia_doctor,
 					$fecha_pago,
 					$dia,
-					$cmf
+					$cmf,
+					$tipo_de_pago
 
 				);
 

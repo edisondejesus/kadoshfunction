@@ -1,14 +1,17 @@
 <?php
-	include'logic.php';
+		
+		#	{ 'x-access-token': '1DDBCDF465C44' }
+	$ch= "https://api.indexa.do/api/rnc?rnc=131766293";
+	$authorization = "Authorization: Bearer 1DDBCDF465C44";	
+		curl_init($ch);
+		curl_setopt($ch, CURLOPT_HTTPHEADER,[
+			'Content-Type: application/json',
+			"{'x-access-token': '1DDBCDF465C44'}"
 
-	$u  = "b0";
-	$valor  = 200000000;
+		]);
 
-	$c = Clinica::comprobante_fiscal();
- 	$valor_actual= $c+1;
-
+		$d = curl_exec($ch);
+		echo $d;
 
 
-		echo $u;
-		echo $valor+$valor_actual;
 ?>
