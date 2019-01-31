@@ -244,8 +244,8 @@ class Clinica
 
 		 	 $ganancia_doctor =($monto * 40) /100;
 			 $ganancia_clinica  = ($monto * 60) /100;
-			 $time = time();
-			$fecha_pago = date('Y-m-d H:i:s',$time);
+		
+			$fecha_pago = date('Y-m-d H:i:s');
 
 
 			if($abono=="abono"){

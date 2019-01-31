@@ -1,6 +1,8 @@
 <?php
 	include'conexion.php';
 	include'logic.php'; 
+	date_default_timezone_set('America/Santo_Domingo');
+
 
 	$app = new Clinica();
 
