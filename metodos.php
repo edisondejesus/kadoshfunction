@@ -265,11 +265,13 @@
 		$id_cita  = $_POST['id_cita'];
 		$paciente = $_POST['paciente'];
 		$asunto= $_POST['asunto'];
+		$telefono_a = $_POST['telefono_a'];
 		$hora_minuto = $_POST['hora_minuto'];
 		$fecha_cita = $_POST['fecha_cita'];
 		$id_doctor = $_POST['id_doctor_a'];
+		$dni_a = $_POST['dni_a'];
 
-		update_1_cita($id_cita,$paciente,$hora_minuto,$asunto,$fecha_cita,$id_doctor);
+		update_1_cita($id_cita,$paciente,$hora_minuto,$asunto,$fecha_cita,$id_doctor,$telefono_a,$dni_a);
 
 	}else if(isset($_POST['filtrar_procedimiento'])){
 

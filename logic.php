@@ -291,7 +291,7 @@ class Clinica
 
 
 				
-				$sql = "insert into factura (monto,concepto_pago,id_estatus,ganancia_clinica,ganancia_doctor,fecha_pago,dia,cmf,tipo_de_pago)values(?,?,?,?,?,?,?,?)";
+				$sql = "insert into factura (monto,concepto_pago,id_estatus,ganancia_clinica,ganancia_doctor,fecha_pago,dia,cmf,tipo_de_pago)values(?,?,?,?,?,?,?,?,?)";
 				$guardar = $conn->prepare($sql);
 				$guardar->bind_param('dsiddssis',
 					$monto,
@@ -1079,20 +1079,22 @@ class Clinica
 
 	}
 
-	function update_1_cita($id_cita,$paciente,$hora_minuto,$asunto,$fecha_cita,$id_doctor){
+	function update_1_cita($id_cita,$paciente,$hora_minuto,$asunto,$fecha_cita,$id_doctor,$telefono,$dni){
 
 
 		global $conn;
 
-		$sql = "update cita set paciente=?,hora_minuto=?,asunto=?,fecha_cita=?,id_doctor=? where id_cita=?";
+		$sql = "update cita set paciente=?,hora_minuto=?,asunto=?,fecha_cita=?,id_doctor=?,telefono=?,dni=? where id_cita=?";
 		$update = $conn->prepare($sql);
-			$update->bind_param('ssssii',
+			$update->bind_param('ssssiiss',
 				$paciente,
 				$hora_minuto,
 				$asunto,
 				$fecha_cita,
 				$id_doctor,
-				$id_cita
+				$id_cita,
+				$telefono,
+				$dni
 		);
 		$update->execute() or die("tenemos un problema no se actualizo");
 

@@ -371,7 +371,7 @@
 						asunto:$('#asunto_a').val(),
 						hora_minuto:$('#hora_a').val(),
 						dni_a:$('#dni_a').val(),
-						telefono:$('#telefono_a').val(),
+						telefono_a:$('#telefono_a').val(),
 						fecha_cita:$('#fecha_cita_a').val(),
 						id_doctor_a:$('#doctor_id_a').val()
 
