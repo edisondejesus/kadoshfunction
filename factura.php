@@ -67,7 +67,7 @@
 
 				<div style="width:800px; display: inline-flex;">
 	   			
-	   				<strong>Credito Fiscal de consumo <?php Clinica::show_cmf(); ?></strong>
+	   				<strong>NCF <?php Clinica::show_cmf(); ?></strong>
 	   		
 	   			
 	    		</div>
