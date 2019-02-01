@@ -59,7 +59,7 @@ class Clinica
 
 	public static function show_cmf(){
 
-				$u  = "b0";
+				$u  = "B0";
 				$valor  = 200000000;
 
 				$c = Clinica::comprobante_fiscal();
